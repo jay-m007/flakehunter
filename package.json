@@ -1,0 +1,21 @@
+{
+  "name": "flakehunter",
+  "version": "0.1.0",
+  "description": "Finds flaky JavaScript tests and tells you why they flake: re-runs your suite while changing one thing at a time (order, clock, timezone, parallelism, network, CPU load).",
+  "type": "module",
+  "bin": { "flakehunter": "bin/flakehunter.js" },
+  "files": ["bin", "dist", "README.md", "LICENSE"],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node -e \"require('fs').cpSync('src/preload','dist/preload',{recursive:true})\"",
+    "test": "node --test --test-concurrency=1 \"test/**/*.test.ts\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "flakehunter": "node src/cli.ts",
+    "bench": "node bench/run.ts"
+  },
+  "engines": { "node": ">=22.18" },
+  "keywords": ["flaky-tests", "testing", "jest", "vitest", "node-test", "ci", "reliability", "cli"],
+  "author": "Jay Maurya",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/jay-m007/flakehunter.git" },
+  "devDependencies": { "@types/node": "^22.18.0", "typescript": "5.9.3" }
+}
