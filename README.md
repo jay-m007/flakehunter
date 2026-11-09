@@ -41,16 +41,19 @@ FLAKY (fails on its own in identical runs)
 
 FRAGILE (passes normally, fails when one thing changes)
   e-timezone.test.js > a noon-UTC timestamp falls on the same local day
-    Depends on the machine's timezone: it passes in the default zone and fails in another. [high confidence]
+    Depends on the machine's timezone: it passes in the default zone and fails in another. [medium confidence]
       - passed in all 5 baseline runs, failed in 1 of 2 timezone-changed runs: TZ=Pacific/Kiritimati
       - error: 11 == 10
-  c-expects-clean.test.js > starts with an empty cache
-    Depends on test order: a test that runs before it leaves state behind. [high confidence]
-      - passes when run alone, so another test leaves something behind that breaks it
+  b-uses-setup.test.js > reads the shared config
+    Depends on test order: it relies on an earlier test to set up state instead of setting it up itself. [high confidence]
+      - passed in all 5 baseline runs, failed in 3 of 3 shuffled-order runs
+      - also fails when run alone, so it needs an earlier test to set something up
   g-network.test.js > reaches the local service by its LAN address
     Quietly needs the network: it fails when connections to non-local hosts are refused. [high confidence]
       - error: connect ENETUNREACH 192.0.2.2 (network blocked by flakehunter)
 ```
+
+Each fragile test also prints a `reproduce:` command (left out above).
 
 ## How it works
 
