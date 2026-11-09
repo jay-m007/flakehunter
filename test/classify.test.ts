@@ -91,3 +91,15 @@ test("order plus parallel failures are linked as probably one cause", () => {
   assert.deepEqual(v[0].findings.map((f) => f.cause), ["order", "concurrency"]);
   assert.match(v[0].findings[1].evidence.join(" "), /same cross-test dependency/);
 });
+
+test("parallel plus CPU-load failures: timing leads, concurrency is demoted to low", () => {
+  const v = classify([run("baseline", [r("a", "pass")]), run("parallel", [r("a", "fail")]), run("stress", [r("a", "fail")])], []);
+  assert.deepEqual(v[0].findings.map((f) => f.cause), ["timing", "concurrency"]);
+  assert.equal(v[0].findings[1].confidence, "low");
+  assert.match(v[0].findings[1].evidence.join(" "), /CPU contention/);
+});
+
+test("parallel failure without CPU-load failure stays concurrency at high confidence", () => {
+  const v = classify([run("baseline", [r("a", "pass")]), run("parallel", [r("a", "fail")]), run("stress", [r("a", "pass")])], []);
+  assert.deepEqual(v[0].findings.map((f) => [f.cause, f.confidence]), [["concurrency", "high"]]);
+});

@@ -1,0 +1,106 @@
+{
+  "rounds": 5,
+  "node": "v22.22.0",
+  "cpus": 2,
+  "perKind": {
+    "b-uses-setup.test.js": "5/5",
+    "c-expects-clean.test.js": "5/5",
+    "e-timezone.test.js": "5/5",
+    "f-clock.test.js": "5/5",
+    "g-network.test.js": "5/5",
+    "h-timing.test.js": "5/5",
+    "j-intermittent.test.js": "5/5",
+    "k-broken.test.js": "5/5",
+    "port (at least one file, cause concurrency)": "5/5"
+  },
+  "falsePositiveRounds": 0,
+  "meanSeconds": 56,
+  "runsPerAnalysis": 21,
+  "perRound": [
+    {
+      "round": 1,
+      "seconds": 57,
+      "runs": 21,
+      "hit": {
+        "b-uses-setup.test.js": true,
+        "c-expects-clean.test.js": true,
+        "e-timezone.test.js": true,
+        "f-clock.test.js": true,
+        "g-network.test.js": true,
+        "h-timing.test.js": true,
+        "j-intermittent.test.js": true,
+        "k-broken.test.js": true,
+        "port (at least one file, cause concurrency)": true
+      },
+      "falsePositives": []
+    },
+    {
+      "round": 2,
+      "seconds": 56,
+      "runs": 21,
+      "hit": {
+        "b-uses-setup.test.js": true,
+        "c-expects-clean.test.js": true,
+        "e-timezone.test.js": true,
+        "f-clock.test.js": true,
+        "g-network.test.js": true,
+        "h-timing.test.js": true,
+        "j-intermittent.test.js": true,
+        "k-broken.test.js": true,
+        "port (at least one file, cause concurrency)": true
+      },
+      "falsePositives": []
+    },
+    {
+      "round": 3,
+      "seconds": 54,
+      "runs": 21,
+      "hit": {
+        "b-uses-setup.test.js": true,
+        "c-expects-clean.test.js": true,
+        "e-timezone.test.js": true,
+        "f-clock.test.js": true,
+        "g-network.test.js": true,
+        "h-timing.test.js": true,
+        "j-intermittent.test.js": true,
+        "k-broken.test.js": true,
+        "port (at least one file, cause concurrency)": true
+      },
+      "falsePositives": []
+    },
+    {
+      "round": 4,
+      "seconds": 58,
+      "runs": 21,
+      "hit": {
+        "b-uses-setup.test.js": true,
+        "c-expects-clean.test.js": true,
+        "e-timezone.test.js": true,
+        "f-clock.test.js": true,
+        "g-network.test.js": true,
+        "h-timing.test.js": true,
+        "j-intermittent.test.js": true,
+        "k-broken.test.js": true,
+        "port (at least one file, cause concurrency)": true
+      },
+      "falsePositives": []
+    },
+    {
+      "round": 5,
+      "seconds": 57,
+      "runs": 21,
+      "hit": {
+        "b-uses-setup.test.js": true,
+        "c-expects-clean.test.js": true,
+        "e-timezone.test.js": true,
+        "f-clock.test.js": true,
+        "g-network.test.js": true,
+        "h-timing.test.js": true,
+        "j-intermittent.test.js": true,
+        "k-broken.test.js": true,
+        "port (at least one file, cause concurrency)": true
+      },
+      "falsePositives": []
+    }
+  ]
+}

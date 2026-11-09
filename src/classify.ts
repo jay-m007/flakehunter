@@ -73,6 +73,13 @@ export function classify(runs: RunRecord[], isolated: RunRecord[]): TestVerdict[
     if (findings.some((f) => f.cause === "order")) {
       for (const f of findings) if (f.cause === "concurrency") f.evidence.push("it also depends on test order, so this is probably the same cross-test dependency showing up when files overlap");
     }
+    // Running files in parallel also loads the CPU. If CPU load alone breaks the test, the parallel failure is probably load, not a shared resource.
+    const conc = findings.find((f) => f.cause === "concurrency" && f.confidence !== "low");
+    if (conc && findings.some((f) => f.cause === "timing")) {
+      conc.confidence = "low";
+      conc.evidence.push("it also fails under CPU load alone, so the parallel failure may simply be CPU contention rather than a shared resource");
+      findings.sort((x, y) => Number(y.cause === "timing") - Number(x.cause === "timing"));
+    }
     verdicts.push({
       id, file: t.file, name: t.name, verdict, baseline: { runs: base.length, failures: baseFail.length }, findings, messages,
       repro: reproRun ? reproRun.outcome.cmdline : undefined,
