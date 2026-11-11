@@ -90,7 +90,7 @@ The report lists anything it skipped under "Not covered".
 
 ## Honest limits
 
-- **Tested on planted flakes only.** The benchmark below uses a project I wrote with one planted flake of each kind. I have **not** run Flake Hunter on third-party projects, and the Jest and Vitest adapters are tested on their argument lists and JSON parsing, not against a real Jest or Vitest run. Expect rough edges there.
+- **Little real-world testing so far.** It has been run on four real projects of mine (two node:test, two Vitest; 23 to 54 tests each) and on small Jest and Vitest projects with planted flakes; see "Real projects" below. Running it on other people's repositories is still to do.
 - **The 45/45 is not an accuracy claim.** I fixed two classifier problems after the first benchmark round, so the fixture shaped the tool. Treat it as a regression check.
 - **No proof of absence.** "Nothing found" means nothing broke under these conditions, not that the suite is stable. Flakes that need a specific data race, a particular machine, or a long uptime will be missed.
 - **It re-runs your tests about 20 times.** Tests with real side effects (a shared database, emails, payments) can be damaged by that. Point it at a test environment.
@@ -119,6 +119,21 @@ The report lists anything it skipped under "Not covered".
 
 No stable test was flagged in any round. One analysis takes about 56 s. The first version of this table had timing at 3/5; the parallel run was being blamed for a failure that CPU load explained, which is why that rule exists.
 
+## Real projects
+
+Quick mode (`--quick`) on my own repositories, 2-CPU Linux machine, Node 22:
+
+| Project | Runner | Tests | Runs | Time | Found |
+|---|---|---|---|---|---|
+| [unbreak](https://github.com/jay-m007/unbreak) | node:test | 23 | 9 | 1 min 46 s | nothing |
+| [pocketcloud](https://github.com/jay-m007/pocketcloud) | node:test | 15 | 9 | 1 min 12 s | nothing |
+| [archguard](https://github.com/jay-m007/archguard) | Vitest | 54 | 8 | 1 min 30 s | nothing |
+| [contextcode](https://github.com/jay-m007/contextcode) | Vitest | 44 | 8 | 47 s | nothing |
+
+Nothing found is the expected result for small offline suites, and it is not proof they are stable. These runs show the tool works on real suites without false alarms; they do not show it finds real flakes.
+
+To check the Jest and Vitest adapters against the real tools, I also ran it on two tiny projects (Jest 29.7 and Vitest) with planted order, timezone, clock and network flakes. Vitest: order, timezone and clock found. Jest: order, timezone and network found; clock skipped as documented. These runs found one bug: in `--quick` mode Jest and Vitest got no shuffled run at all. Fixed.
+
 ## Use in CI
 
 ```yaml
@@ -140,7 +155,7 @@ jobs:
 ## Develop
 
 ```sh
-npm test            # 45 offline tests, including the planted-flake analysis
+npm test            # 46 offline tests, including the planted-flake analysis
 npm run typecheck
 node bench/run.ts
 ```

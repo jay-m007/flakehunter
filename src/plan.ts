@@ -17,7 +17,7 @@ export function buildPlan(o: PlanOptions): { specs: RunSpec[]; notes: string[] }
 
   if (o.adapter.caps.shuffle && o.canShuffle) {
     if (o.adapter.caps.reverse) specs.push({ kind: "shuffle", label: "reversed file order", parallel: false, reverse: true });
-    const seeds = o.quick ? [] : [1, 2];
+    const seeds = o.quick ? (o.adapter.caps.reverse ? [] : [1]) : [1, 2];
     for (const s of seeds) specs.push({ kind: "shuffle", label: `shuffled order (seed ${s})`, parallel: false, shuffleSeed: s });
   } else notes.push(o.adapter.caps.shuffle ? "Order shuffling skipped: there is only one test file, and node:test cannot reorder tests inside a file." : `Order shuffling is not supported for ${o.adapter.name}.`);
 

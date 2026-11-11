@@ -103,3 +103,10 @@ test("seeded shuffle is repeatable and a permutation", () => {
   assert.notDeepEqual(a, c);
   assert.deepEqual([...a].sort((x, y) => x - y), items);
 });
+
+test("plan: quick mode still shuffles once for runners without file reversal", () => {
+  const j = buildPlan({ repeats: 3, quick: true, stress: false, canShuffle: true, adapter: adapters.jest });
+  assert.equal(j.specs.filter((s) => s.kind === "shuffle").length, 1);
+  const nt = buildPlan({ repeats: 3, quick: true, stress: false, canShuffle: true, adapter: adapters["node:test"] });
+  assert.deepEqual(nt.specs.filter((s) => s.kind === "shuffle").map((s) => s.label), ["reversed file order"]);
+});
